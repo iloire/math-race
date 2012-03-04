@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+	<script src="/javascripts/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>	
+		
+	<div class="navbar">
+	  <div class="navbar-inner">
+	    <div class="container-fluid">
+			<ul class="nav">
+			  <li class="active">
+			    <a href="#">Math-race <span id="socketio"></span></a> 
+			  </li>
+			</ul>
+	    </div>
+	  </div>
+	</div>
+
+    <div class="container-fluid">	
+	
+	<%- body %>
+
+	<script>
+	var user_id = Math.random();
+	var real_time_server = {host: '<%=real_time_server.host %>', port:<%=real_time_server.port %>};
+	</script>
+	<script src="http://<%=real_time_server.host %>:<%=real_time_server.port %>/socket.io/socket.io.js" type="text/javascript" charset="utf-8"></script>		
+
+	<script src="/javascripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/javascripts/knockout-2.0.0.js" type="text/javascript" charset="utf-8"></script>
+	</div>
+  </body>
+</html>

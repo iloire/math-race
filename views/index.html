@@ -1,0 +1,146 @@
+<script>
+  
+    //util
+    function sort (arr, property, desc){
+      function sorter(aa,bb){
+        var a = !desc ? aa : bb;
+        var b = !desc ? bb : aa;
+          
+        if (typeof a[property] == "number") {
+          return (a[property] - b[property]);
+        } else {
+          return ((a[property] < b[property]) ? -1 : ((a[property] > b[property]) ? 1 : 0));
+        }
+      }
+      return arr.sort(sorter);
+    };
+
+    //print msg --
+    function print_msg (msg, style){
+        $('#msg').html('<div class="alert alert-'+ style +'"><a class="close" data-dismiss="alert" href="#">×</a>' + msg + '</div>');
+        $('#msg').fadeIn();
+        setTimeout(function(){$('#msg').fadeOut()},500);
+    }
+
+    function show_error(msg){ print_msg(msg, 'error'); }
+
+    function show_ok(msg){ print_msg(msg, 'ok'); }
+    //end print msg --
+
+
+    $(document).ready(function() {
+        
+      //socket.io -------------------------
+      var server='http://' + real_time_server.host + ':' + real_time_server.port;      
+      var socket = io.connect(server);
+
+      socket.on('connect',function() {
+        $('#socketio').html('<span class="label label-success">socket.io connected!</label'); 
+        socket.emit('join', { id: user_id });
+      });
+
+      socket.on('disconnect',function() {
+        $('#socketio').html('<span class="label label-important">socket.io disconnected</label'); 
+      });
+
+      socket.on('time',function(time) {
+        $('#time').html(time); 
+      });
+
+      socket.on('new_operation',function(operation) {
+        $('#operations').html(operation);
+        $('input.input_player').val('').select(); //reset and select.
+      });
+
+      socket.on('history',function(history) {
+        console.log (history)
+        for (var i = 0, l = history.length; i < l ;  i++) { //sort scores
+          sort(history[i].scores, 'score', true)
+        }
+        race.history(sort(history, 'timestamp', true));
+      });
+          
+      socket.on('scores',function(scores) {
+        race.scores(sort(scores,'score', true));
+      });
+
+      socket.on('result_operation',function(result) {
+        if (result==1)
+          print_msg ('you won!', 'success');
+        else if (result==2)
+          print_msg ('other player won', 'warning');
+        else
+          print_msg ('nooooooooo!', 'error');
+      });
+      //end socket.io -------------------------
+
+      //knockout model and binding
+      function Race () {
+        var self=this;
+        self.name = ko.observable();
+
+        self.input_player1 = ko.observable();
+        self.scores = ko.observableArray();
+        self.history = ko.observableArray();
+
+        self.sendOperationResult = function() {3
+          var data = {operation: self.input_player1(), name : self.name()};
+          socket.emit('solve_operation', data);
+        }
+      }
+      var race = new Race();
+      ko.applyBindings(race);
+      //end knockout model and binding
+
+      //jQuery bindings
+      $('input.input_player').click(function(e){
+        this.select();  
+      });
+
+      $('#name').focus();
+
+      $('input.input_player').keydown(function(e){
+        if (e.keyCode=='13'){ //press return
+          race.sendOperationResult();
+          $('input.input_player').select();
+        }
+      });
+    });        
+</script>
+
+
+<p>Your name: <input type="text" id="name" name="name" value="" data-bind="value: name, valueUpdate: 'afterkeydown'" /></p>
+
+<div class="row-fluid" data-bind="visible: name">
+  <div class="span8 main">
+        <span id="operations"></span>
+        <span class="equal">=</span>
+        <input class="input_player" maxlength="3" type="text" name="player1" value="" data-bind="value: input_player1, valueUpdate: 'afterkeydown'" />    
+
+    <div id="msg" data-bind="visible: name"></div>
+  </div>    
+
+  <div class="span3">
+    <div class="alert alert-info">
+      next game in : <span id="time"></span> seconds.
+    </div>
+    <div class="well">
+      <h2>Current game</h2>
+      <ul data-bind="foreach: scores">
+        <li><span data-bind="text: player"></span>: <span data-bind="text: score"></span></li>
+      </ul>
+
+      <div data-bind="visible: history().length">
+        <h3>History</h3>
+        <div data-bind="foreach: history">
+            <div class="game_history alert">
+              <h4><small>game played at: </small> <span data-bind="text: name"> </span></h4>
+              <ul data-bind="foreach: scores">
+                <li><span data-bind="text: player"></span>: <span data-bind="text: score"></span></li>
+              </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>

@@ -1,0 +1,20 @@
+{
+	"name": "node-myboiler",
+	"version": "0.0.1",
+	"scripts": {
+		"test": "echo '\nlaunching redis-server in background with testing config...\n'; redis-server tests/redis.conf; node tests/runall.js; kill `cat redis.pid`;rm test.rdb"
+	},
+	"engines": {
+		"node": ">= 0.6.0"
+	},
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/iloire/math-race"
+	},
+	"dependencies": {
+		"express": "2.5.0",
+		"ejs": ">= 0.0.1",
+		"socket.io": ">=0.8.7"
+	}
+}
