@@ -1,12 +1,18 @@
-#Math-Race. Simple knockout.js/websockets/node.js real-time game
+#Math-Race. 
 
-This is a simple game created with websockets and nodejs. Just try to be faster than the other players in solving simple mathematical equations.
+Simple knockout.js / websockets / node.js real-time game
 
-Every play has a limited time (defaults to one minute), so hurry up and beat the others.
+This is a **very simple real-time game** created with node.js, knockout.js and socket.io. 
+
+##Goal 
+
+Try to be faster than the other players in **solving simple mathematical equations**.
+
+Every game has a limited time (defaults to one minute), so hurry up and beat the others.
 
 Game score history is saved across games.
 
-No database require (this is just a demo)
+No database required (this is just a demo)
 
 Enjoy!
 
