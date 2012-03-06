@@ -1,5 +1,4 @@
 <script>
-  
     //util
     function sort (arr, property, desc){
       function sorter(aa,bb){
@@ -15,9 +14,9 @@
       return arr.sort(sorter);
     };
 
-    //print msg --
+    //util, print msgs --
     function print_msg (msg, style){
-        $('#msg').html('<div class="alert alert-'+ style +'"><a class="close" data-dismiss="alert" href="#">×</a>' + msg + '</div>');
+        $('#msg').html('<div class="msg-'+ style +'">' + msg + '</div>');
         $('#msg').fadeIn();
         setTimeout(function(){$('#msg').fadeOut()},500);
     }
@@ -25,7 +24,7 @@
     function show_error(msg){ print_msg(msg, 'error'); }
 
     function show_ok(msg){ print_msg(msg, 'ok'); }
-    //end print msg --
+    //end print msgs --
 
 
     $(document).ready(function() {
@@ -35,16 +34,16 @@
       var socket = io.connect(server);
 
       socket.on('connect',function() {
-        $('#socketio').html('<span class="label label-success">socket.io connected!</label'); 
+        $('#socketio').html('<span class="label label-success">socket.io connected!</label>'); 
         socket.emit('join', { id: user_id });
       });
 
       socket.on('disconnect',function() {
-        $('#socketio').html('<span class="label label-important">socket.io disconnected</label'); 
+        $('#socketio').html('<span class="label label-important">socket.io disconnected</label>'); 
       });
 
       socket.on('time',function(time) {
-        $('#time').html(time); 
+        race.time(time);
       });
 
       socket.on('new_operation',function(operation) {
@@ -53,11 +52,10 @@
       });
 
       socket.on('history',function(history) {
-        console.log (history)
-        for (var i = 0, l = history.length; i < l ;  i++) { //sort scores
+        for (var i = 0, l = history.length; i < l ;  i++) { //sort eath item by score
           sort(history[i].scores, 'score', true)
         }
-        race.history(sort(history, 'timestamp', true));
+        race.history(sort(history, 'timestamp', true)); //bind score history (and sort by date)
       });
           
       socket.on('scores',function(scores) {
@@ -82,8 +80,9 @@
         self.input_player1 = ko.observable();
         self.scores = ko.observableArray();
         self.history = ko.observableArray();
+        self.time = ko.observableArray();
 
-        self.sendOperationResult = function() {3
+        self.sendOperationResult = function() {
           var data = {operation: self.input_player1(), name : self.name()};
           socket.emit('solve_operation', data);
         }
@@ -115,32 +114,30 @@
   <div class="span8 main">
         <span id="operations"></span>
         <span class="equal">=</span>
-        <input class="input_player" maxlength="3" type="text" name="player1" value="" data-bind="value: input_player1, valueUpdate: 'afterkeydown'" />    
+        <input class="input_player" maxlength="4" type="text" name="player1" value="" data-bind="value: input_player1, valueUpdate: 'afterkeydown'" />    
 
-    <div id="msg" data-bind="visible: name"></div>
+    <div id="msg"></div>
   </div>    
 
   <div class="span3">
+    next game in:  <span id="time" data-bind="text: time, css: { red: time() < 10 }"></span> seconds.
+    <h3>Current game score</h3>
     <div class="alert alert-info">
-      next game in : <span id="time"></span> seconds.
-    </div>
-    <div class="well">
-      <h2>Current game</h2>
-      <ul data-bind="foreach: scores">
+      <ol data-bind="foreach: scores">
         <li><span data-bind="text: player"></span>: <span data-bind="text: score"></span></li>
-      </ul>
-
-      <div data-bind="visible: history().length">
-        <h3>History</h3>
-        <div data-bind="foreach: history">
-            <div class="game_history alert">
-              <h4><small>game played at: </small> <span data-bind="text: name"> </span></h4>
-              <ul data-bind="foreach: scores">
-                <li><span data-bind="text: player"></span>: <span data-bind="text: score"></span></li>
-              </ul>
-            </div>
-        </div>
-      </div>
+      </ol>
     </div>
+
+    <div data-bind="visible: history().length">
+      <h3>Game history</h3>
+      <div data-bind="foreach: history">
+          <div class="game_history alert alert-warning">
+            <h4><small>game played at: </small> <span data-bind="text: name"> </span></h4>
+            <ol data-bind="foreach: scores">
+              <li><span data-bind="text: player"></span>: <span data-bind="text: score"></span></li>
+            </ol>
+          </div>
+      </div>
+    </div>    
   </div>    
 </div>

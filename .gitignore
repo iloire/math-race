@@ -1,3 +1,5 @@
 .monitor
 node_modules/
 .DS_Store
+math-race.sublime-project*
+math-race.sublime-workspace*

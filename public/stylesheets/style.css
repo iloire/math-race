@@ -18,23 +18,49 @@ a {
 	text-align:right;
 }
 
+#time{
+	font-size:3em;
+}
+
+#time.red{
+	color:red;
+}
+
 section{
 	margin-top:20px;
 	margin-bottom:10px;
 }
 
 span.equal{
-	font-size:9em;
+	font-size:8em;
 	height:170px;
 }
 
 input.input_player{
 	font-size:9em;
 	height:140px;
-	width:240px;
+	width:270px;
 	vertical-align:top;
 }
 
 #operations{
 	font-size:8em;
+}
+
+.msg-error{
+	font-size:2em;
+	position:fixed;
+	background-color:red;
+	color:white;
+	padding:10px;
+	text-align:center;
+}
+
+.msg-success{
+	font-size:2em;
+	position:fixed;
+	background-color:green;
+	color:white;
+	text-align:center;
+	padding:10px;
 }
