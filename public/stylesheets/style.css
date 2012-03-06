@@ -43,6 +43,10 @@ input.input_player{
 	vertical-align:top;
 }
 
+footer{
+	padding-top:100px;
+}
+
 #operations{
 	font-size:8em;
 }

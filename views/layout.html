@@ -24,6 +24,9 @@
 	
 	<%- body %>
 
+	<footer>
+		Source code available in GitHub: <a href="https://github.com/iloire/math-race">https://github.com/iloire/math-race</a>
+	</footer>
 	<script>
 	var user_id = Math.random();
 	var real_time_server = {host: '<%=real_time_server.host %>', port:<%=real_time_server.port %>};
@@ -33,5 +36,17 @@
 	<script src="/javascripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/javascripts/knockout-2.0.0.js" type="text/javascript" charset="utf-8"></script>
 	</div>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-300651-38']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
   </body>
 </html>

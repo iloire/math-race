@@ -1,4 +1,4 @@
-#Math-Race. 
+#Math-Race
 
 Simple knockout.js / websockets / node.js real-time game
 
@@ -12,9 +12,13 @@ Every game has a limited time (defaults to one minute), so hurry up and beat the
 
 Game score history is saved across games.
 
-No database required (this is just a demo)
+**No database required** (this is just a quick demo)
 
 Enjoy!
+
+##Demo
+
+[http://letsnode.com:8090/](http://letsnode.com:8090/)
 
 ##Installation
 
