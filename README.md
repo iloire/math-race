@@ -22,6 +22,28 @@ Enjoy!
 
     npm install
 
+###Configuration
+
+Edit config file to reflect where are you running the server from (so the browser renders the proper link to socket.io resources)
+
+	exports.values={
+		version: '0.0.1',
+		server : {
+			production : {
+				real_time_server : {port: 8090, host: '127.0.0.1'}
+			}
+		}
+		,
+		game : {
+			duration: 60 //seconds
+		}
+	}
+
+
+Run the server
+
+	node server.js 8090
+
 ##History
 
 ### 0.1 (nothing yet)
