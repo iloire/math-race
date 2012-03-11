@@ -7,6 +7,6 @@ exports.values={
 	}
 	,
 	game : {
-		duration: 10 //seconds
+		duration: 30 //seconds
 	}
 }
