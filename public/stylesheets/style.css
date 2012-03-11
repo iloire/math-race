@@ -85,6 +85,12 @@ footer{
 	color:white;
 }
 
+.msg-warning{
+	font-size:2em;
+	background-color:yellow;
+	color: black;
+}
+
 div.results{
 	margin-top:100px;
 }
