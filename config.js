@@ -7,6 +7,7 @@ exports.values={
 	}
 	,
 	game : {
+		show_history_games: 20,
 		duration: 30 //seconds
 	}
 }
