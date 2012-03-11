@@ -80,7 +80,7 @@
         if (result==1)
           print_msg ('good!!', 'success');
         else if (result==2)
-          print_msg ('other player solved this quest faster than you!', 'warning');
+          print_msg ('other player solved this quest faster than you!', 'warning', 1000);
         else
           print_msg ('nooooooooo!', 'error');
       });
@@ -128,8 +128,8 @@
 
 
 <div class="alert alert-warning" data-bind="visible: (!valid_name())">  
-  <h2>Be the faster math solver: 12 + 14 = ??</h2>
-  <h3>Play agains other player in real time! (or try to beat the top scores!)</h3>
+  <h2>Be the fastest simple math problem solver: 12 + 14 = ??</h2>
+  <h3>Play against other players in real time! (or try to beat the top scores!)</h3>
   <p>Please introduce your name to start playing!</p>
 </div>
 
