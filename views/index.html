@@ -15,10 +15,10 @@
     };
 
     //util, print msgs --
-    function print_msg (msg, style){
-        $('#msg').html('<div class="msg-'+ style +'">' + msg + '</div>');
+    function print_msg (msg, style, time){
+        $('#msg').html('<div class="msg msg-'+ style +'">' + msg + '</div>');
         $('#msg').fadeIn();
-        setTimeout(function(){$('#msg').fadeOut()},500);
+        setTimeout(function(){$('#msg').fadeOut()},time || 500);
     }
 
     function show_error(msg){ print_msg(msg, 'error'); }
@@ -34,12 +34,12 @@
       var socket = io.connect(server);
 
       socket.on('connect',function() {
-        $('#socketio').html('<span class="label label-success">socket.io connected!</label>'); 
+        $('#socketio').html('<span class="label label-success">connected!</label>'); 
         socket.emit('join', { id: user_id });
       });
 
       socket.on('disconnect',function() {
-        $('#socketio').html('<span class="label label-important">socket.io disconnected</label>'); 
+        $('#socketio').html('<span class="label label-important">disconnected</label>'); 
       });
 
       socket.on('time',function(time) {
@@ -60,13 +60,27 @@
           
       socket.on('scores',function(scores) {
         race.scores(sort(scores,'score', true));
+        if (scores.length){ //effect
+          $('.scores').addClass('selected');
+          setTimeout(function (){
+              $('.scores').removeClass('selected')
+          }, 200);
+        }
+      });
+
+      socket.on('hall_of_fame',function(hall_of_fame) {
+        race.hall_of_fame(sort(hall_of_fame,'score', true));
+      });
+
+      socket.on('new_game',function(result) {
+          print_msg ('new game, new score, hurry up!!', 'new', 2000);
       });
 
       socket.on('result_operation',function(result) {
         if (result==1)
-          print_msg ('you won!', 'success');
+          print_msg ('good!!', 'success');
         else if (result==2)
-          print_msg ('other player won', 'warning');
+          print_msg ('other player solved this quest faster than you!', 'warning');
         else
           print_msg ('nooooooooo!', 'error');
       });
@@ -80,7 +94,12 @@
         self.input_player1 = ko.observable();
         self.scores = ko.observableArray();
         self.history = ko.observableArray();
+        self.hall_of_fame = ko.observableArray();
         self.time = ko.observableArray();
+
+        self.valid_name = ko.computed(function() {
+          return (self.name() && self.name().length>2);
+        }, self);
 
         self.sendOperationResult = function() {
           var data = {operation: self.input_player1(), name : self.name()};
@@ -108,36 +127,68 @@
 </script>
 
 
-<p>Your name: <input type="text" id="name" name="name" value="" data-bind="value: name, valueUpdate: 'afterkeydown'" /></p>
+<div class="alert alert-warning" data-bind="visible: (!valid_name())">  
+  <h2>Be the faster math solver: 12 + 14 = ??</h2>
+  <h3>Play agains other player in real time! (or try to beat the top scores!)</h3>
+  <p>Please introduce your name to start playing!</p>
+</div>
 
-<div class="row-fluid" style="display:none" data-bind="visible: name">
-  <div class="span8 main">
+<p>Your name: <input maxlength="25" type="text" id="name" name="name" value="" data-bind="value: name, valueUpdate: 'afterkeydown'" /></p>
+
+<div style="display:none" data-bind="visible: valid_name">
+  <div class="row-fluid">
+    <div class="span12 main">
         <span id="operations"></span>
         <span class="equal">=</span>
         <input class="input_player" maxlength="4" type="text" name="player1" value="" data-bind="value: input_player1, valueUpdate: 'afterkeydown'" />    
+        <div id="msg"></div>
+    </div>    
+  </div>
 
-    <div id="msg"></div>
-  </div>    
+  <div class="row-fluid results">  
+    <div class="span4 current_game">
+      <h3>Current game 
+        <small>(ends in <span id="time" data-bind="text: time, css: { red: time() < 10 }"></span> secs)</small>
+      </h3>
 
-  <div class="span3">
-    next game in:  <span id="time" data-bind="text: time, css: { red: time() < 10 }"></span> seconds.
-    <h3>Current game score</h3>
-    <div class="alert alert-info">
-      <ol data-bind="foreach: scores">
-        <li><span data-bind="text: player"></span>: <span data-bind="text: score"></span></li>
-      </ol>
+      <div class="scores alert alert-warning">
+        <ol data-bind="foreach: scores">
+          <li><span data-bind="text: player"></span>: 
+                  <span class="score" data-bind="text: score"></span>
+            </li>
+        </ol>
+        <p data-bind="visible: (scores().length==0)">Solve the math quest and be the first one to score!</p>
+      </div>
+      
+    </div>    
+
+    <div class="span4">
+      <h3>Game history</h3>
+      <div data-bind="visible: history().length">
+        <div data-bind="foreach: history">
+            <div class="game_history alert alert-warning">
+              <h4><small>game played at: </small> <span data-bind="text: name"> </span></h4>
+              <ol data-bind="foreach: scores">
+                <li><span data-bind="text: player"></span>: <span class="score" data-bind="text: score"></span></li>
+              </ol>
+            </div>
+        </div>
+      </div>    
     </div>
 
-    <div data-bind="visible: history().length">
-      <h3>Game history</h3>
-      <div data-bind="foreach: history">
-          <div class="game_history alert alert-warning">
-            <h4><small>game played at: </small> <span data-bind="text: name"> </span></h4>
-            <ol data-bind="foreach: scores">
-              <li><span data-bind="text: player"></span>: <span data-bind="text: score"></span></li>
-            </ol>
-          </div>
-      </div>
-    </div>    
-  </div>    
+    <div class="span4 hall_of_fame">
+      <h3>Hall of Fame (top scores)</h3>
+        <ol data-bind="foreach: hall_of_fame">                        
+              <li>               
+                <strong> 
+                <span data-bind="text: player"></span> <span class="score" data-bind="text: score"></span>
+              </strong>
+              <span class="timestamp">
+              (<span data-bind="text: timestamp"></span>)
+              </span>
+              </li>
+        </ol>
+    </div>
+
+  </div>
 </div>

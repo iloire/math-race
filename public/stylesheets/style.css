@@ -19,11 +19,15 @@ a {
 }
 
 #time{
-	font-size:3em;
+	color:yellow !important;
+	font-size:1.4em;
+	font-weight:bold;
 }
 
 #time.red{
-	color:red;
+	background-color:yellow !important;
+	padding:5px;
+	color:red !important;
 }
 
 section{
@@ -37,10 +41,15 @@ span.equal{
 }
 
 input.input_player{
-	font-size:9em;
+	font-size:9em;	
+	width:270px;	
 	height:140px;
-	width:270px;
-	vertical-align:top;
+	padding:0px;
+	margin:0px;
+	display: inline;
+	font-weight: normal;
+	line-height:normal;
+	vertical-align: top;
 }
 
 footer{
@@ -51,20 +60,59 @@ footer{
 	font-size:8em;
 }
 
+.msg{
+	border-radius: 60px;
+	position:fixed;	
+	text-align:center;
+	padding:20px 25px;
+}
+
+.msg-new{
+	font-size:4em;
+	background-color:yellow;
+	color:black;
+}
+
 .msg-error{
 	font-size:2em;
-	position:fixed;
 	background-color:red;
 	color:white;
-	padding:10px;
-	text-align:center;
 }
 
 .msg-success{
 	font-size:2em;
-	position:fixed;
 	background-color:green;
 	color:white;
-	text-align:center;
-	padding:10px;
+}
+
+div.results{
+	margin-top:100px;
+}
+
+div.hall_of_fame ol li{
+	line-height:160%;
+	font-size:1.3em;
+}
+
+div.hall_of_fame .timestamp{
+	color:#c2c2c2;
+	font-size:0.7em;	
+}
+
+div.scores.selected{
+	background-color:yellow;
+	color:black;
+}
+
+span.score {
+	background-color: yellow;
+	border-radius: 100px;
+	color: black;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 1.1em;
+	border-radius: 100px;
+	padding: 2px 4px;
+	border: 1px solid gray;
+	text-shadow: 0px 1px 0px black;
 }
