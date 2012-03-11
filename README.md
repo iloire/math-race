@@ -50,4 +50,12 @@ Run the server
 
 ##History
 
-### 0.1 (nothing yet)
+### 0.1 
+
+ * Basic functionality. In-memory, no database.
+ * Twitter Bootstrap CSS with themes from http://bootswatch.com/
+
+##TODO
+
+ * Use redis database for persistence. 
+ * Twitter auth
