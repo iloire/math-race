@@ -7,6 +7,7 @@ exports.values={
 	}
 	,
 	game : {
+		show_hall_of_fame: 20,
 		show_history_games: 20,
 		duration: 30 //seconds
 	}

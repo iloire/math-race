@@ -20,6 +20,8 @@ Enjoy!
 
 [http://letsnode.com:8090/](http://letsnode.com:8090/)
 
+[You can also watch a short video to see the game being played](http://www.youtube.com/watch?v=LXbYSJfLUW8&feature=youtu.be)
+
 ##Installation
 
 ###Install dependencies with npm:
