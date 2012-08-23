@@ -2,9 +2,9 @@
 
 Simple knockout.js / websockets / node.js real-time game
 
-This is a **very simple real-time game** created with node.js, knockout.js and socket.io. 
+This is a **very simple real-time game** created with node.js, knockout.js and socket.io.
 
-##Goal 
+##Goal
 
 Try to be faster than the other players in **solving simple mathematical equations**.
 
@@ -17,6 +17,8 @@ Game score history is saved across games.
 Enjoy!
 
 ##Demo
+
+![Game screenshot](https://github.com/iloire/math-race/raw/master/screenshots/math-race01.png)
 
 [http://letsnode.com:8090/](http://letsnode.com:8090/)
 
@@ -32,6 +34,7 @@ Enjoy!
 
 Edit config file to reflect where are you running the server from (so the browser renders the proper link to socket.io resources)
 
+```javascript
 	exports.values={
 		version: '0.0.1',
 		server : {
@@ -44,7 +47,7 @@ Edit config file to reflect where are you running the server from (so the browse
 			duration: 60 //seconds
 		}
 	}
-
+```
 
 Run the server
 
@@ -52,12 +55,12 @@ Run the server
 
 ##History
 
-### 0.1 
+### 0.1
 
  * Basic functionality. In-memory, no database.
  * Twitter Bootstrap CSS with themes from http://bootswatch.com/
 
 ##TODO
 
- * Use redis database for persistence. 
+ * Use redis database for persistence.
  * Twitter auth
