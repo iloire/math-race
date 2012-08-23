@@ -65,7 +65,7 @@ Run the server
  * Use redis database for persistence.
  * Twitter auth
 
- ##License
+##License
 
  Copyright (c) 2012 Iván Loire
 
