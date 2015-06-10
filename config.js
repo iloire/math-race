@@ -2,7 +2,7 @@ exports.values={
 	version: '0.0.1',
 	server : {
 		production : {
-			real_time_server : {port: 3001, host: '127.0.0.1'}
+			real_time_server : {port: 53799, host: 'rt.cf-uswest-runtime-1.cf-cd.com'}
 		}
 	}
 	,
