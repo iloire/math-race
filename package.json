@@ -2,12 +2,15 @@
 	"name": "node-myboiler",
 	"version": "0.0.1",
 	"engines": {
-		"node": ">= 0.6.0"
+		"node": ">= 0.10.0"
 	},
 	"private": true,
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/iloire/math-race"
+	},
+	"scripts": {
+		"start": "node server"
 	},
 	"dependencies": {
 		"express": "2.5.0",
